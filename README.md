@@ -1,46 +1,46 @@
-# Getting Started with Create React App
+## 프로젝트 실행 방법
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```
+git clone https://github.com/pinkdumbbel/mini-commerce.git
 
-## Available Scripts
+npm start
+```
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 구현 내용
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. 브랜드 필터
+2. 색상 필터
+3. 카테고리 필터
+4. 상품목록
+5. Pagination
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+## 구현 우선순위
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. 상품목록
+2. Pagination
+3. 브랜드 필터
+4. 색상 필터
+5. 카테고리 필터
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 구현하지 못한 내용
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 가격 필터
+- 생각한 구현 방법:
+  1. Antd와 같은 UI라이브러리를 사용하여 슬라이더 컴포넌트 구현
+  2. 왼쪽(최저 요금) 슬라이더 수치가 오른쪽(최고 요금) 슬라이더를 넘지 못하도록 하고 반대의 경우도 안되도록 구현
+  3. 최저 요금 슬라이더가 왼쪽 움직이는 거리만큼 값을 더하고 최고 요금 슬라이더가 오른쪽으로 움직이는 거리만큼 최고 요금 가격을 빼서 최저 요금과 최고요금 사이의 가격 범위를 필터링함
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+### 사용한 서드파티 라이브러리
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- react-router-dom: SPA에 최적화 된 페이지 이동을 위해서
+- axios: fetch 함수로 요청시 params부분을 객체리터럴 형태로 값을 전달하면 직접 쿼리스트링을 만들어 줘야 하는 부분 때문에 선택
+- react-query: 데이터 캐시 정책을 활용하여 서버로의 요청 수를 줄이기 위해
+- emotion: className이 자동으로 다르게 설정 되면서 스타일이 겹치지 않고 props로 조건에 따른 스타일을 지정 할 수 있기 때문
