@@ -25,7 +25,6 @@ const ProductList = () => {
       })
   );
 
-  console.log(productList);
   if (!productList) return null;
 
   return (
