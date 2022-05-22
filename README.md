@@ -3,6 +3,8 @@
 ```
 git clone https://github.com/pinkdumbbel/mini-commerce.git
 
+npm i
+
 npm start
 ```
 
