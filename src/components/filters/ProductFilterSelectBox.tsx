@@ -1,63 +1,34 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   ProductFilterSelectBtn,
   ProductFilterSelectDiv,
   ProductFilterTitleSpan,
 } from '../../pages/products/style';
-import { FilterTypeList, FilterTypeUnion } from '../../types/common';
+import { BrandsAndColor, Categories } from '../../types/api';
+import { FilterTypeUnion } from '../../types/common';
 import ArrowIcon from '../svg/ArrowIcon';
-import ProductFilteredList from './ProductFilteredList';
+import ProductFilterList from './ProductFilterList';
 
 interface ProductFilterSelectBoxProps {
-  setBrand: (brand: string) => void;
-  setColor: (brand: string) => void;
-  setPage: (page: number) => void;
-  setCategoryId: (categoryId: number) => void;
-  FilterType: FilterTypeUnion;
+  itemList: BrandsAndColor | Categories;
+  filterType: FilterTypeUnion;
 }
 const ProductFilterSelectBox: React.FC<ProductFilterSelectBoxProps> = ({
-  setBrand,
-  setColor,
-  setPage,
-  FilterType,
-  setCategoryId,
+  itemList,
+  filterType,
 }) => {
-  const [filterTypeTxt, setFilterTypeTxt] = useState('');
+  const [showList, setShowList] = useState(false);
 
-  const [toggle, setToggle] = useState(false);
-
-  useEffect(() => {
-    switch (FilterType) {
-      case FilterTypeList.BRAND:
-        setFilterTypeTxt(FilterTypeList.BRAND);
-        break;
-      case FilterTypeList.COLOR:
-        setFilterTypeTxt(FilterTypeList.COLOR);
-        break;
-      case FilterTypeList.CATEGORY:
-        setFilterTypeTxt(FilterTypeList.CATEGORY);
-        break;
-      default:
-        setFilterTypeTxt('');
-        break;
-    }
-  }, [FilterType]);
   return (
     <ProductFilterSelectDiv>
-      <ProductFilterSelectBtn onClick={() => setToggle((prev) => !prev)}>
-        <ProductFilterTitleSpan>{filterTypeTxt}</ProductFilterTitleSpan>
+      <ProductFilterSelectBtn onClick={() => setShowList((prev) => !prev)}>
+        <ProductFilterTitleSpan>{filterType}</ProductFilterTitleSpan>
         <div>
-          <ArrowIcon toggle={toggle} />
+          <ArrowIcon toggle={showList} />
         </div>
       </ProductFilterSelectBtn>
-      {toggle && (
-        <ProductFilteredList
-          setBrand={setBrand}
-          setColor={setColor}
-          setPage={setPage}
-          setCategoryId={setCategoryId}
-          FilterType={FilterType}
-        />
+      {showList && (
+        <ProductFilterList filterType={filterType} itemList={itemList} />
       )}
     </ProductFilterSelectDiv>
   );

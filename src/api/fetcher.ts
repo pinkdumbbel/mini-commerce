@@ -12,6 +12,7 @@ export const getClient = (() => {
           queries: {
             cacheTime: 1000 * 60 * 60 * 24,
             staleTime: 1000 * 60,
+            refetchInterval: false,
           },
         },
       });
@@ -31,7 +32,7 @@ const fetcher = async <T>(endpoint: string, params = {}) => {
     }
   );
 
-  return response.data;
+  return response.data as T;
 };
 
 export const QueryKeys = {
@@ -39,6 +40,13 @@ export const QueryKeys = {
   BRANDS: 'BRANDS',
   COLOR: 'COLOR',
   CATEGORY: 'CATEGORY',
+};
+
+export const initialParams = {
+  page: 1,
+  brand: '',
+  color: '',
+  categoryId: 0,
 };
 
 export default fetcher;

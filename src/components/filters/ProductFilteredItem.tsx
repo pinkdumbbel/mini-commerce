@@ -1,37 +1,36 @@
-import { ProductFilteredItemLi } from '../../pages/products/style';
+import { MouseEventHandler } from 'react';
+import useQueryString from '../../hooks/useQueryString';
+import {
+  ProductFilteredItemLi,
+  ProductFilteredItemSpan,
+} from '../../pages/products/style';
 import { FilterTypeList, FilterTypeUnion } from '../../types/common';
 
 interface ProductFilteredItemProps {
-  brandName: string;
-  FilterType: FilterTypeUnion;
-  setBrand: (brand: string) => void;
-  setColor: (color: string) => void;
-  setPage: (page: number) => void;
-  categoryId?: number | null;
-  setCategoryId: (categoryId: number) => void;
+  itemName: string;
+  filterType: FilterTypeUnion;
+  categoryId?: number;
   depth?: boolean;
 }
 const ProductFilteredItem: React.FC<ProductFilteredItemProps> = ({
-  brandName,
-  setBrand,
-  setColor,
-  setPage,
-  FilterType,
+  itemName,
+  filterType,
   depth,
   categoryId,
-  setCategoryId,
 }) => {
-  const onClickFilter = () => {
-    setPage(1);
-    if (FilterType === FilterTypeList.BRAND) setBrand(brandName);
-    if (FilterType === FilterTypeList.COLOR) setColor(brandName);
-    if (FilterType === FilterTypeList.CATEGORY && categoryId)
-      setCategoryId(categoryId);
-  };
+  const onClickItem = useQueryString(
+    filterType.toLowerCase(),
+    filterType === FilterTypeList.CATEGORY && categoryId
+      ? categoryId.toString()
+      : itemName
+  );
 
   return (
-    <ProductFilteredItemLi onClick={onClickFilter} depth={depth as boolean}>
-      {brandName ? brandName : 'All'}
+    <ProductFilteredItemLi
+      depth={depth as boolean}
+      onClick={onClickItem as MouseEventHandler<HTMLSpanElement>}
+    >
+      <ProductFilteredItemSpan>{itemName}</ProductFilteredItemSpan>
     </ProductFilteredItemLi>
   );
 };

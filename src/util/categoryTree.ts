@@ -1,16 +1,19 @@
 import { Categories } from '../types/api';
 
 const categoryTree = (categories: Categories) => {
-  const newCategories = [];
+  const clone = [...categories, { id: 18, parent_id: 6, name: 'test' }];
 
-  const parent = categories
+  const newCategories = [];
+  const parent = clone
     .filter((category) => !category.parent_id)
     .sort((a, b) => a.id - b.id);
 
-  const child = categories
+  const child = clone
     .filter((category) => category.parent_id)
     .sort((a, b) => a.id - b.id);
 
+  console.log(parent);
+  console.log(child);
   for (let i = 0; i < parent.length; i++) {
     newCategories.push(parent[i]);
     for (let j = 0; j < child.length; j++) {
