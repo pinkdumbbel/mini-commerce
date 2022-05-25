@@ -38,7 +38,7 @@ const ProductFilter: React.FC = () => {
         filterType={FilterTypeList.COLOR}
       />
       <ProductFilterSelectBox
-        itemList={categoryList as BrandsAndColor}
+        itemList={categoryList as Categories}
         filterType={FilterTypeList.CATEGORY}
       />
     </ProductFilterWrapDiv>
