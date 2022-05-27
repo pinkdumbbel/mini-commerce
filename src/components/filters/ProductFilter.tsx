@@ -1,46 +1,43 @@
 import { useQueries } from 'react-query';
-import fetcher, { QueryKeys } from '../../api/fetcher';
+import fetcher, { filterTypeArr, QueryKeys } from '../../api/fetcher';
 import { ProductFilterWrapDiv } from '../../pages/products/style';
 import { BrandsAndColor, Categories } from '../../types/api';
-import { EndpointList, FilterTypeList } from '../../types/common';
+import { EndpointList } from '../../types/common';
 import ProductFilterSelectBox from './ProductFilterSelectBox';
 
+type ResponseList = BrandsAndColor | Categories;
+
 const ProductFilter: React.FC = () => {
-  const [
-    { data: brandList, isError: brandFetchError },
-    { data: colorList, isError: colorFetchError },
-    { data: categoryList, isError: categoryFetchError },
-  ] = useQueries([
+  const responseData = useQueries([
     {
       queryKey: QueryKeys.BRANDS,
-      queryFn: () => fetcher<BrandsAndColor>(EndpointList.BRANDS),
+      queryFn: () => fetcher<ResponseList>(EndpointList.BRANDS),
     },
     {
       queryKey: QueryKeys.COLOR,
-      queryFn: () => fetcher<BrandsAndColor>(EndpointList.COLOR),
+      queryFn: () => fetcher<ResponseList>(EndpointList.COLOR),
     },
     {
       queryKey: QueryKeys.CATEGORY,
-      queryFn: () => fetcher<Categories>(EndpointList.CATEGORY),
+      queryFn: () => fetcher<ResponseList>(EndpointList.CATEGORY),
     },
   ]);
 
-  if (brandFetchError || colorFetchError || categoryFetchError) return null;
+  if (responseData.length <= 0) return null;
 
   return (
     <ProductFilterWrapDiv>
-      <ProductFilterSelectBox
-        itemList={brandList as BrandsAndColor}
-        filterType={FilterTypeList.BRAND}
-      />
-      <ProductFilterSelectBox
-        itemList={colorList as BrandsAndColor}
-        filterType={FilterTypeList.COLOR}
-      />
-      <ProductFilterSelectBox
-        itemList={categoryList as Categories}
-        filterType={FilterTypeList.CATEGORY}
-      />
+      {responseData.map(({ data, isError }, i) => {
+        if (isError) return null;
+
+        return (
+          <ProductFilterSelectBox
+            key={filterTypeArr[i]}
+            itemList={data as ResponseList}
+            filterType={filterTypeArr[i]}
+          />
+        );
+      })}
     </ProductFilterWrapDiv>
   );
 };

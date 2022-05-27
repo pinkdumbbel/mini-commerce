@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 interface CategoryProps {
-  depth: boolean;
+  depth?: boolean;
 }
 
 export const ContentWrapDiv = styled.div`

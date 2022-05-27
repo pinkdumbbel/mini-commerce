@@ -15,12 +15,12 @@ export interface Products {
   total: number; //요청 조건에 맞는 전체 상품 수
 }
 
-export type BrandsAndColor = { name: string }[];
-
 export interface CategoryItem {
   id: number;
   parent_id: number | null;
   name: string;
 }
+
+export type BrandsAndColor = { name: string }[];
 
 export type Categories = CategoryItem[];

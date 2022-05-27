@@ -1,10 +1,11 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import ProductList from './pages/products';
 
 const AppRouter: React.FC = () => {
   return (
     <Routes>
-      <Route path='/' element={<ProductList />}></Route>
+      <Route path='/products' element={<ProductList />}></Route>
+      <Route path='/' element={<Navigate replace to={'/products'} />}></Route>
     </Routes>
   );
 };

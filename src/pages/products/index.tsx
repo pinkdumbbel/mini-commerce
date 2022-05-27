@@ -13,8 +13,6 @@ const ProductList = () => {
   const [page, setPage] = useState(1);
   const queryString = useQueryString();
 
-  console.log(queryString);
-
   const { data: productList } = useQuery(
     [QueryKeys.PRODUCTS, queryString],
     () => fetcher<Products>(EndpointList.PRODUCTS, queryString)

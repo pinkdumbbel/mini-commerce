@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { QueryClient } from 'react-query';
+import { FilterTypeList } from '../types/common';
 
 //QueryClient인스턴스가 한번만 생성되도록 설정
 export const getClient = (() => {
@@ -48,5 +49,11 @@ export const initialParams = {
   color: '',
   categoryId: 0,
 };
+
+export const filterTypeArr = [
+  FilterTypeList.BRAND,
+  FilterTypeList.COLOR,
+  FilterTypeList.CATEGORY,
+];
 
 export default fetcher;
