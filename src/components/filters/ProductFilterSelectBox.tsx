@@ -5,7 +5,7 @@ import {
   ProductFilterTitleSpan,
 } from '../../pages/products/style';
 import { BrandsAndColor, Categories } from '../../types/api';
-import { FilterTypeUnion } from '../../types/common';
+import { FilterTypeList, FilterTypeUnion } from '../../types/common';
 import ArrowIcon from '../svg/ArrowIcon';
 import ProductFilterList from './ProductFilterList';
 
@@ -28,7 +28,12 @@ const ProductFilterSelectBox: React.FC<ProductFilterSelectBoxProps> = ({
         </div>
       </ProductFilterSelectBtn>
       {showList && (
-        <ProductFilterList filterType={filterType} itemList={itemList} />
+        <ProductFilterList
+          filterType={filterType}
+          itemList={
+            filterType === FilterTypeList.CATEGORY ? [...itemList] : itemList
+          }
+        />
       )}
     </ProductFilterSelectDiv>
   );

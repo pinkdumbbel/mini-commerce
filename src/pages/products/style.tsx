@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 interface CategoryProps {
-  depth?: boolean;
+  depthCnt?: number;
 }
 
 export const ContentWrapDiv = styled.div`
@@ -68,7 +68,7 @@ export const ProductPageNumberLi = styled.li`
 export const ProductFilterWrapDiv = styled.div`
   box-sizing: border-box;
   padding-top: 30px;
-  width: 10%;
+  width: 20%;
 `;
 
 export const ProductFilterSelectDiv = styled.div`
@@ -125,7 +125,7 @@ export const ProductFilteredItemLi = styled.li<CategoryProps>`
   font-style: normal;
   color: #000;
   box-sizing: border-box;
-  padding-left: ${(props) => (props.depth ? '20px' : '0px')};
+  padding-left: ${({ depthCnt }) => depthCnt && `${depthCnt * 10}px`};
   &:hover {
     cursor: pointer;
     text-decoration: underline;

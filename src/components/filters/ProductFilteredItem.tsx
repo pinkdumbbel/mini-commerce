@@ -12,14 +12,17 @@ interface ProductFilteredItemProps {
   filterType: FilterTypeUnion;
   childCategory?: Categories;
   categoryId?: number;
-  depth?: boolean;
+  parentCategories?: Categories;
+  depthCnt?: number;
+  parentId?: number;
 }
 const ProductFilteredItem: React.FC<ProductFilteredItemProps> = ({
   itemName,
   filterType,
   categoryId,
-  childCategory,
-  depth,
+  parentCategories,
+  depthCnt,
+  parentId,
 }) => {
   const [childOfParentCategories, setChildOfParentCategories] =
     useState<Categories>([]);
@@ -32,25 +35,18 @@ const ProductFilteredItem: React.FC<ProductFilteredItemProps> = ({
   );
 
   useEffect(() => {
-    if (filterType === FilterTypeList.CATEGORY && childCategory) {
-      /* console.log(childCategory); */
-      setChildOfParentCategories(
-        childCategory.filter((child) => child.parent_id === categoryId)
-      );
+    if (filterType === FilterTypeList.CATEGORY && parentCategories) {
+      const newCateogries = parentCategories.filter((parent) => {
+        return parent.parent_id === parentId;
+      });
+      newCateogries.length > 0 && setChildOfParentCategories(newCateogries);
     }
-  }, [categoryId, filterType, childCategory]);
+  }, [parentCategories, parentId, filterType]);
 
-  if (
-    filterType === FilterTypeList.CATEGORY &&
-    childOfParentCategories.length === 0
-  )
-    return null;
-
-  console.log(childOfParentCategories);
   return (
     <>
       <ProductFilteredItemLi
-        depth={depth as boolean}
+        depthCnt={depthCnt as number}
         onClick={onClickItem as MouseEventHandler<HTMLSpanElement>}
       >
         <ProductFilteredItemSpan>{itemName}</ProductFilteredItemSpan>
@@ -59,28 +55,18 @@ const ProductFilteredItem: React.FC<ProductFilteredItemProps> = ({
         childOfParentCategories.map((child) => {
           return (
             <ProductFilteredItem
+              key={child.id}
               itemName={child.name}
               filterType={filterType}
               categoryId={child.id}
-              childCategory={childOfParentCategories}
-              depth={true}
+              parentCategories={parentCategories}
+              parentId={child.id}
+              depthCnt={(depthCnt as number) + 1}
             />
           );
-          /* return (
-            <ProductFilteredItemLi
-              key={child.id}
-              depth={true}
-              onClick={onClickItem as MouseEventHandler<HTMLSpanElement>}
-            >
-              <ProductFilteredItemSpan>{child.name}</ProductFilteredItemSpan>
-            </ProductFilteredItemLi>
-          ); */
         })}
     </>
   );
 };
 
-ProductFilteredItem.defaultProps = {
-  depth: false,
-};
 export default ProductFilteredItem;
