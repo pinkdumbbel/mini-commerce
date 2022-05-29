@@ -1,31 +1,32 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FilterTypeList } from '../types/common';
 
-const useQueryString = (filterType?: string, itemName?: string) => {
+interface UseQueryStringProps {
+  filterType?: string;
+  itemName?: string;
+  currentPage?: number;
+  setCurrentPage?: (page: number) => void;
+}
+const useQueryString = (props?: UseQueryStringProps) => {
   const { search, pathname } = useLocation();
   const urlSearchParams = new URLSearchParams(search);
   const navigate = useNavigate();
 
-  if (filterType && itemName) {
-    return () => {
-      urlSearchParams.set(filterType, itemName);
-      navigate(`${pathname}?${urlSearchParams.toString()}`);
-    };
+  if (props) {
+    if (props.filterType && props.itemName) {
+      const { filterType, itemName } = props;
+      urlSearchParams.set(filterType as string, itemName as string);
+    }
+
+    if (props.currentPage && props.setCurrentPage) {
+      const { currentPage } = props;
+      urlSearchParams.set('page', currentPage.toString());
+    }
   }
 
-  const params: { [key: string]: string | number } = {};
-
-  urlSearchParams.forEach((val, key) => {
-    if (key === FilterTypeList.CATEGORY.toLocaleLowerCase()) {
-      params[`${key}Id`] = val;
-    } else {
-      params[key] = val;
-    }
-  });
-
-  if (Object.keys(params).length === 0) return { page: 1 };
-
-  return params;
+  return () => {
+    props?.setCurrentPage && props.setCurrentPage(props.currentPage as number);
+    navigate(`${pathname}?${urlSearchParams.toString()}`);
+  };
 };
 
 export default useQueryString;

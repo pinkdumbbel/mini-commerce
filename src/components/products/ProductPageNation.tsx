@@ -3,21 +3,21 @@ import ProductPageList from './ProductPageList';
 
 interface ProductPageNationProps {
   totalPage: number;
-  setPage: (page: number) => void;
-  currentPage: number;
+  /*   setPage: (page: number) => void;
+  currentPage: number; */
 }
 
 const ProductPageNation: React.FC<ProductPageNationProps> = ({
   totalPage,
-  setPage,
-  currentPage,
+  /*   setPage,
+  currentPage, */
 }) => {
   return (
     <ProductPageNationWrapDiv>
       <ProductPageList
         totalPage={totalPage}
-        setPage={setPage}
-        currentPage={currentPage}
+        /*         setPage={setPage}
+        currentPage={currentPage} */
       />
     </ProductPageNationWrapDiv>
   );

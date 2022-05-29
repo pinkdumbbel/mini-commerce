@@ -1,17 +1,15 @@
-import { useState } from 'react';
 import { useQuery } from 'react-query';
 import fetcher, { QueryKeys } from '../../api/fetcher';
 import ProductFilter from '../../components/filters/ProductFilter';
 import ProductItem from '../../components/products/ProductItem';
 import ProductPageNation from '../../components/products/ProductPageNation';
-import useQueryString from '../../hooks/useQueryString';
+import useParams from '../../hooks/useParams';
 import { Products } from '../../types/api';
 import { EndpointList } from '../../types/common';
 import { ContentWrapDiv, ProductsWrapDiv } from './style';
 
 const ProductList = () => {
-  const [page, setPage] = useState(1);
-  const queryString = useQueryString();
+  const queryString = useParams();
 
   const { data: productList } = useQuery(
     [QueryKeys.PRODUCTS, queryString],
@@ -30,11 +28,7 @@ const ProductList = () => {
         </ProductsWrapDiv>
         <ProductFilter />
       </ContentWrapDiv>
-      <ProductPageNation
-        totalPage={Math.ceil(productList.total / 20)}
-        setPage={setPage}
-        currentPage={page}
-      />
+      <ProductPageNation totalPage={Math.ceil(productList.total / 20)} />
     </>
   );
 };

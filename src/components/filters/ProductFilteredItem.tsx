@@ -27,12 +27,10 @@ const ProductFilteredItem: React.FC<ProductFilteredItemProps> = ({
   const [childOfParentCategories, setChildOfParentCategories] =
     useState<Categories>([]);
 
-  const onClickItem = useQueryString(
-    filterType.toLowerCase(),
-    filterType === FilterTypeList.CATEGORY && categoryId
-      ? categoryId.toString()
-      : itemName
-  );
+  const onClickItem = useQueryString({
+    filterType: filterType.toLowerCase(),
+    itemName: categoryId ? categoryId.toString() : itemName,
+  });
 
   useEffect(() => {
     if (filterType === FilterTypeList.CATEGORY && parentCategories) {

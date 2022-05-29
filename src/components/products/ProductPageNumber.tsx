@@ -1,20 +1,26 @@
+import useQueryString from '../../hooks/useQueryString';
 import { ProductPageNumberLi } from '../../pages/products/style';
 
 interface ProductPageNumberProps {
-  pageNum?: number;
-  setPage: (page: number) => void;
+  pageNum: number;
+  setCurrentPage: (page: number) => void;
+  currentPage: number;
 }
 const ProductPageNumber: React.FC<ProductPageNumberProps> = ({
   pageNum,
-  setPage,
+  setCurrentPage,
+  currentPage,
 }) => {
-  const onClickPage = () => {
-    setPage(pageNum as number);
-  };
+  const onClickPage = useQueryString({ currentPage: pageNum, setCurrentPage });
 
   return (
     <>
-      <ProductPageNumberLi onClick={onClickPage}>{pageNum}</ProductPageNumberLi>
+      <ProductPageNumberLi
+        onClick={onClickPage}
+        activePage={currentPage === pageNum}
+      >
+        {pageNum}
+      </ProductPageNumberLi>
     </>
   );
 };

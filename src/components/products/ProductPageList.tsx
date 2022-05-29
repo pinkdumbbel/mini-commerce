@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { PrdouctPageListUl } from '../../pages/products/style';
+import getPageNum from '../../util/getPageNum';
 import numberToArray from '../../util/numberToArray';
 import pagiNationSlice from '../../util/pagiNationSlice';
 import MaxPageNum from './MaxPageNum';
@@ -7,29 +10,41 @@ import ProductPageNumber from './ProductPageNumber';
 
 interface ProductPageListProps {
   totalPage: number;
-  setPage: (page: number) => void;
-  currentPage: number;
 }
-const ProductPageList: React.FC<ProductPageListProps> = ({
-  totalPage,
-  setPage,
-  currentPage,
-}) => {
+const ProductPageList: React.FC<ProductPageListProps> = ({ totalPage }) => {
   const maxPageNum = 7;
-  const totalPageArr = pagiNationSlice(
-    numberToArray(totalPage),
-    currentPage,
-    totalPage
+  const { search } = useLocation();
+
+  const [currentPage, setCurrentPage] = useState(
+    search ? getPageNum(search) : 1
   );
+  const [totalPageSlice, setTotalPageSlice] = useState<number[]>([]);
+
+  useEffect(() => {
+    setTotalPageSlice(
+      pagiNationSlice(numberToArray(totalPage), currentPage, totalPage)
+    );
+  }, [totalPage, currentPage]);
 
   return (
     <PrdouctPageListUl>
-      {currentPage >= maxPageNum && <MinPageNum setPage={setPage} />}
-      {totalPageArr.map((pageNum) => (
-        <ProductPageNumber key={pageNum} pageNum={pageNum} setPage={setPage} />
+      {currentPage >= maxPageNum && (
+        <MinPageNum setCurrentPage={setCurrentPage} currentPage={currentPage} />
+      )}
+      {totalPageSlice.map((pageNum) => (
+        <ProductPageNumber
+          key={pageNum}
+          pageNum={pageNum}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       ))}
       {currentPage <= totalPage - maxPageNum + 1 && (
-        <MaxPageNum pageNum={totalPage} setPage={setPage} />
+        <MaxPageNum
+          pageNum={totalPage}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       )}
     </PrdouctPageListUl>
   );

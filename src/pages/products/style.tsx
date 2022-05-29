@@ -4,6 +4,11 @@ interface CategoryProps {
   depthCnt?: number;
 }
 
+interface pageProps {
+  notPointer?: boolean;
+  activePage?: boolean;
+}
+
 export const ContentWrapDiv = styled.div`
   width: 70%;
   margin: 0 auto;
@@ -52,7 +57,7 @@ export const PrdouctPageListUl = styled.ul`
   list-style: none;
 `;
 
-export const ProductPageNumberLi = styled.li`
+export const ProductPageNumberLi = styled.li<pageProps>`
   margin-right: 12.5px;
   margin-left: 12.5px;
   font-family: 'Favorit SSENSE Inter', 'Helvetica Neue', Helvetica, Arial,
@@ -62,7 +67,8 @@ export const ProductPageNumberLi = styled.li`
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.09px;
-  cursor: pointer;
+  text-decoration: ${({ activePage }) => (activePage ? 'underline' : 'none')};
+  cursor: ${({ notPointer }) => (notPointer ? 'auto' : 'pointer')};
 `;
 
 export const ProductFilterWrapDiv = styled.div`

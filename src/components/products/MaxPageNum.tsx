@@ -3,14 +3,23 @@ import ProductPageNumber from './ProductPageNumber';
 
 interface MaxPageNumProps {
   pageNum: number;
-  setPage: (page: number) => void;
+  setCurrentPage: (page: number) => void;
+  currentPage: number;
 }
 
-const MaxPageNum: React.FC<MaxPageNumProps> = ({ pageNum, setPage }) => {
+const MaxPageNum: React.FC<MaxPageNumProps> = ({
+  pageNum,
+  setCurrentPage,
+  currentPage,
+}) => {
   return (
     <>
-      <ProductPageNumberLi>...</ProductPageNumberLi>
-      <ProductPageNumber pageNum={pageNum} setPage={setPage} />
+      <ProductPageNumberLi notPointer={true}>...</ProductPageNumberLi>
+      <ProductPageNumber
+        pageNum={pageNum}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
     </>
   );
 };
