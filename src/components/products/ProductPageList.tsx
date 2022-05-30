@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PrdouctPageListUl } from '../../pages/products/style';
 import getPageNum from '../../util/getPageNum';
-import numberToArray from '../../util/numberToArray';
 import pagiNationSlice from '../../util/pagiNationSlice';
 import MaxPageNum from './MaxPageNum';
 import MinPageNum from './MinPageNum';
@@ -21,9 +20,8 @@ const ProductPageList: React.FC<ProductPageListProps> = ({ totalPage }) => {
   const [totalPageSlice, setTotalPageSlice] = useState<number[]>([]);
 
   useEffect(() => {
-    setTotalPageSlice(
-      pagiNationSlice(numberToArray(totalPage), currentPage, totalPage)
-    );
+    const pageSlice = pagiNationSlice(totalPage, currentPage);
+    setTotalPageSlice(pageSlice);
   }, [totalPage, currentPage]);
 
   return (
